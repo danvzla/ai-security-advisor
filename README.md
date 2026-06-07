@@ -14,7 +14,7 @@ Analyzes your network topology, existing security tools, and compliance requirem
 
 ## Live demo
 
-[Launch Cloud Network Security Advisor](https://danvzla.github.io/agentpm-security-advisor)
+[Launch Cloud Network Security Advisor](https://danvzla.github.io/ai-security-advisor)
 
 ## How to use
 

@@ -19,7 +19,7 @@ Analyzes your network topology, existing security tools, and compliance requirem
 ## How to use
 
 1. Open the live demo link above
-2. Enter your Anthropic API key (get one free at console.anthropic.com)
+2. Enter your OpenAI or Anthropic API key or use Demo Mode
 3. Describe your network environment or load the sample scenario
 4. Select your current security tools and compliance requirements
 5. Click Analyze security posture
@@ -33,6 +33,7 @@ This agent maps directly to security hardening work delivered at VMware Explore 
 ## Technology
 
 - Claude API (Anthropic) — claude-haiku-4-5
+- OpenAI API - gpt-4o-mini
 - Vanilla HTML / CSS / JavaScript — no frameworks, no dependencies
 - SheetJS — Excel export
 - Tabler Icons

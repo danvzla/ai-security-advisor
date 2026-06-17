@@ -9,150 +9,355 @@
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
-    --teal: #0F6E56; --teal-light: #E1F5EE; --teal-dark: #085041;
-    --text-primary: #1a1a1a; --text-secondary: #6b7280; --text-muted: #9ca3af;
-    --bg-primary: #ffffff; --bg-secondary: #f9fafb; --bg-tertiary: #f3f4f6;
-    --border: rgba(0,0,0,0.1); --border-strong: rgba(0,0,0,0.18);
-    --red: #A32D2D; --red-bg: #FCEBEB;
-    --amber: #854F0B; --amber-bg: #FAEEDA;
-    --blue: #185FA5; --blue-bg: #E6F1FB;
-    --green: #3B6D11; --green-bg: #EAF3DE;
-    --radius: 8px; --radius-lg: 12px;
+    /* Dark slate palette — matches Demo 3 */
+    --bg:        #0F172A;
+    --surface:   #1E293B;
+    --surface2:  #263347;
+    --surface3:  #2E3E56;
+    --border:    rgba(255,255,255,0.08);
+    --border2:   rgba(255,255,255,0.14);
+    --ink:       #F8FAFC;
+    --muted:     #94A3B8;
+    --dim:       #64748B;
+    /* Accents */
+    --teal:      #10B981;
+    --teal-d:    #059669;
+    --teal-l:    rgba(16,185,129,0.12);
+    --teal-dark: #047857;
+    --teal-light:rgba(16,185,129,0.1);
+    --teal-glow: rgba(16,185,129,0.06);
+    --indigo:    #818CF8;
+    --indigo-d:  #6366F1;
+    --gold:      #F59E0B;
+    --red:       #F87171;
+    --red-bg:    rgba(248,113,113,0.12);
+    --amber:     #FB923C;
+    --amber-bg:  rgba(251,146,60,0.12);
+    --blue:      #60A5FA;
+    --blue-bg:   rgba(96,165,250,0.12);
+    --green:     #34D399;
+    --green-bg:  rgba(52,211,153,0.1);
+    /* Aliases used in renderResults */
+    --text-primary:   #F8FAFC;
+    --text-secondary: #94A3B8;
+    --text-muted:     #64748B;
+    --bg-primary:     #1E293B;
+    --bg-secondary:   #263347;
+    --bg-tertiary:    #2E3E56;
+    --border-strong:  rgba(255,255,255,0.14);
+    --radius: 8px; --radius-lg: 14px;
   }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --text-primary: #f1f5f9; --text-secondary: #94a3b8; --text-muted: #64748b;
-      --bg-primary: #1e2329; --bg-secondary: #252c35; --bg-tertiary: #2d3748;
-      --border: rgba(255,255,255,0.08); --border-strong: rgba(255,255,255,0.15);
-      --teal-light: #0a2e25; --red-bg: #3b1515; --amber-bg: #3b2a0a;
-      --blue-bg: #0c1f35; --green-bg: #0d2310;
-    }
-  }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg-secondary); color: var(--text-primary); min-height: 100vh; font-size: 14px; line-height: 1.6; }
-  nav { background: var(--bg-primary); border-bottom: 0.5px solid var(--border); padding: 0 2rem; height: 52px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+
+  html { scroll-behavior: smooth; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+         background: var(--bg); color: var(--ink); min-height: 100vh;
+         font-size: 14px; line-height: 1.6; }
+  button { cursor: pointer; border: none; font: inherit; }
+  input, select, textarea { font: inherit; }
+
+  /* ─── NAV ─────────────────────────────────────────────────────────────── */
+  nav { background: rgba(15,23,42,0.95); border-bottom: 0.5px solid var(--border2);
+        padding: 0 2rem; height: 52px; display: flex; align-items: center;
+        justify-content: space-between; position: sticky; top: 0; z-index: 100;
+        backdrop-filter: blur(8px); }
   .nav-brand { display: flex; align-items: center; gap: 10px; }
-  .nav-logo { width: 28px; height: 28px; background: var(--teal); border-radius: 6px; display: flex; align-items: center; justify-content: center; }
+  .nav-logo  { width: 30px; height: 30px; background: var(--teal-d);
+               border-radius: var(--radius); display: flex; align-items: center;
+               justify-content: center; }
   .nav-logo i { font-size: 16px; color: white; }
-  .nav-title { font-size: 14px; font-weight: 600; color: var(--text-primary); }
-  .nav-sub { font-size: 11px; color: var(--text-muted); }
+  .nav-title { font-size: 14px; font-weight: 700; color: var(--ink); }
+  .nav-sub   { font-size: 11px; color: var(--dim); }
   .nav-links { display: flex; align-items: center; gap: 6px; }
-  .nav-link { font-size: 12px; color: var(--text-secondary); text-decoration: none; padding: 5px 10px; border-radius: var(--radius); border: 0.5px solid var(--border); }
-  .nav-link:hover { background: var(--bg-secondary); }
-  .nav-tag { font-size: 10px; padding: 2px 8px; background: var(--teal-light); color: var(--teal-dark); border-radius: 20px; font-weight: 500; }
+  .nav-link  { font-size: 12px; color: var(--muted); text-decoration: none;
+               padding: 5px 10px; border-radius: var(--radius);
+               border: 0.5px solid var(--border); }
+  .nav-link:hover { color: var(--ink); border-color: var(--border2); }
+  .nav-tag   { font-size: 10px; padding: 2px 10px; background: rgba(16,185,129,0.12);
+               color: var(--teal); border-radius: 20px; font-weight: 600;
+               border: 0.5px solid rgba(16,185,129,0.25); }
+
+  /* ─── MAIN ────────────────────────────────────────────────────────────── */
   .main { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem; }
-  .api-banner { background: var(--bg-primary); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1rem 1.25rem; margin-bottom: 1.25rem; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-  .api-banner.connected { border-color: var(--teal); background: var(--teal-light); }
-  .api-icon { font-size: 18px; color: var(--teal); flex-shrink: 0; }
-  .api-text { flex: 1; min-width: 200px; }
-  .api-text p { font-size: 12px; color: var(--text-secondary); margin: 2px 0 0; }
-  .api-text strong { font-size: 13px; color: var(--text-primary); }
-  .api-input-wrap { display: flex; gap: 6px; align-items: center; }
-  .api-input { font-size: 12px; padding: 6px 10px; border: 0.5px solid var(--border-strong); border-radius: var(--radius); background: var(--bg-primary); color: var(--text-primary); width: 260px; font-family: monospace; }
-  .api-input:focus { outline: none; border-color: var(--teal); }
-  .btn-connect { font-size: 12px; padding: 6px 14px; background: var(--teal); color: white; border: none; border-radius: var(--radius); cursor: pointer; font-weight: 500; }
-  .btn-connect:hover { background: var(--teal-dark); }
-  .btn-disconnect { font-size: 12px; padding: 6px 12px; background: transparent; border: 0.5px solid var(--border-strong); border-radius: var(--radius); cursor: pointer; color: var(--text-secondary); }
-  .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--teal); display: inline-block; margin-right: 4px; }
-  .page-header { margin-bottom: 1.5rem; padding-left: 14px; border-left: 3px solid var(--teal); }
-  .page-title { font-size: 22px; font-weight: 600; color: var(--text-primary); margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
-  .page-title i { color: var(--teal); font-size: 22px; }
-  .page-desc { font-size: 13px; color: var(--text-secondary); }
-  .form-card { background: var(--bg-primary); border: 0.5px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 1rem; }
-  .form-section { padding: 1.1rem 1.25rem; border-bottom: 0.5px solid var(--border); }
+
+  /* ─── MODE BAR ────────────────────────────────────────────────────────── */
+  .mode-bar { display:flex; align-items:flex-end; gap:1rem; flex-wrap:wrap;
+    background: var(--surface); border: 0.5px solid var(--border2);
+    border-radius: var(--radius-lg); padding: .875rem 1.25rem; margin-bottom: 1.25rem; }
+  .mode-group { display:flex; flex-direction:column; gap:5px; }
+  .mode-lbl   { font-size:10px; font-weight:700; text-transform:uppercase;
+    letter-spacing:.08em; color:var(--muted); display:flex; align-items:center; gap:4px; }
+  .mode-pills { display:flex; gap:4px; }
+  .mode-pill  { padding:6px 13px; border-radius:var(--radius); font-size:12px;
+    font-weight:600; color:var(--dim); background:var(--surface2);
+    border:0.5px solid var(--border2); cursor:pointer;
+    display:flex; align-items:center; gap:5px; transition:all .15s; }
+  .mode-pill:hover { color:var(--ink); border-color: rgba(255,255,255,0.22); }
+  .mode-pill.active { background:var(--teal-d); color:#fff; border-color:var(--teal-d); }
+  .mode-pill.active-openai { background:#10a37f; color:#fff; border-color:#10a37f; }
+  .key-group { display:flex; flex-direction:column; gap:5px; }
+  .key-row   { display:flex; gap:6px; }
+  .mode-status { display:flex; align-items:center; gap:8px; font-size:12px;
+    padding:7px 12px; border-radius:var(--radius); margin-left:auto;
+    background: rgba(16,185,129,0.08); color:var(--teal);
+    border:0.5px solid rgba(16,185,129,0.25); flex-shrink:0; }
+  .mode-status.openai-status { background:rgba(16,163,127,0.08); color:#10a37f; border-color:rgba(16,163,127,0.3); }
+
+  /* ─── PAGE HEADER ─────────────────────────────────────────────────────── */
+  .page-header { margin-bottom: 1.5rem; padding-left: 14px;
+                 border-left: 3px solid var(--teal); }
+  .page-title  { font-size: 22px; font-weight: 700; letter-spacing: -0.02em; color: var(--ink); }
+  .page-sub    { font-size: 13px; color: var(--muted); margin-top: 3px; }
+
+  /* ─── FORM CARD ───────────────────────────────────────────────────────── */
+  .form-card { background: var(--surface); border: 0.5px solid var(--border2);
+               border-radius: var(--radius-lg); overflow: hidden;
+               margin-bottom: 1.25rem; }
+  .form-section { padding: 1.25rem; border-bottom: 0.5px solid var(--border); }
   .form-section:last-child { border-bottom: none; }
-  .section-label { font-size: 11px; font-weight: 600; color: var(--teal); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 10px; display: flex; align-items: center; gap: 5px; }
-  .section-label i { font-size: 13px; }
-  textarea { width: 100%; min-height: 90px; font-size: 13px; font-family: inherit; resize: vertical; border: 0.5px solid var(--border-strong); border-radius: var(--radius); padding: 8px 10px; background: var(--bg-primary); color: var(--text-primary); }
+  .section-label { font-size: 11px; font-weight: 700; text-transform: uppercase;
+                   letter-spacing: 0.08em; color: var(--teal); margin-bottom: .75rem;
+                   display: flex; align-items: center; gap: 6px; }
+  textarea { width: 100%; min-height: 100px; padding: 10px 12px; resize: vertical;
+             background: var(--bg); border: 0.5px solid var(--border2);
+             border-radius: var(--radius); color: var(--ink); font-size: 13px; }
   textarea:focus { outline: none; border-color: var(--teal); }
-  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
-  .check-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 4px; }
-  .check-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-secondary); cursor: pointer; padding: 3px 0; }
-  .check-item input { accent-color: var(--teal); cursor: pointer; }
-  .sel-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .sel-wrap { display: flex; flex-direction: column; gap: 5px; }
-  .sel-label { font-size: 12px; color: var(--text-secondary); }
-  select { font-size: 13px; padding: 7px 10px; border: 0.5px solid var(--border-strong); border-radius: var(--radius); background: var(--bg-primary); color: var(--text-primary); width: 100%; cursor: pointer; }
+  textarea::placeholder { color: var(--dim); }
+  select { font-size: 13px; padding: 7px 10px;
+           border: 0.5px solid var(--border2); border-radius: var(--radius);
+           background: var(--bg); color: var(--ink); cursor: pointer; }
   select:focus { outline: none; border-color: var(--teal); }
-  .action-bar { display: flex; gap: 8px; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; }
-  .btn-primary { font-size: 13px; padding: 8px 20px; background: var(--teal); color: white; border: none; border-radius: var(--radius); cursor: pointer; font-weight: 500; display: flex; align-items: center; gap: 6px; }
-  .btn-primary:hover { background: var(--teal-dark); }
-  .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
-  .btn-secondary { font-size: 12px; padding: 7px 14px; background: transparent; border: 0.5px solid var(--border-strong); border-radius: var(--radius); cursor: pointer; color: var(--text-secondary); display: flex; align-items: center; gap: 5px; }
-  .btn-secondary:hover { background: var(--bg-secondary); }
-  .btn-export { font-size: 12px; padding: 7px 14px; background: var(--green-bg); border: 0.5px solid var(--green); border-radius: var(--radius); cursor: pointer; color: var(--green); display: flex; align-items: center; gap: 5px; font-weight: 500; }
-  .btn-export:hover { background: #d4e8b8; }
-  .spinner { width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.7s linear infinite; }
+
+  /* ─── CHECKBOXES ──────────────────────────────────────────────────────── */
+  .check-grid { display: flex; flex-wrap: wrap; gap: 6px; }
+  .check-item { display: flex; align-items: center; gap: 6px; font-size: 12px;
+                color: var(--muted); padding: 5px 11px;
+                background: var(--surface2); border: 0.5px solid var(--border);
+                border-radius: 20px; cursor: pointer; transition: all .15s; }
+  .check-item:hover { border-color: var(--teal); color: var(--ink); }
+  .check-item input { accent-color: var(--teal); width: 13px; height: 13px; }
+  .check-item:has(input:checked) { background: rgba(16,185,129,0.12);
+                                   border-color: rgba(16,185,129,0.35); color: var(--teal); }
+
+  /* ─── FORM ROW ────────────────────────────────────────────────────────── */
+  .form-row { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+  .form-group { display: flex; flex-direction: column; gap: 5px; }
+  .form-label { font-size: 11px; font-weight: 600; text-transform: uppercase;
+                letter-spacing: 0.06em; color: var(--muted); }
+
+  /* ─── BUTTONS ─────────────────────────────────────────────────────────── */
+  .btn-primary { display: inline-flex; align-items: center; gap: 7px;
+                 padding: 9px 22px; background: var(--teal-d); color: white;
+                 border-radius: var(--radius); font-size: 13px; font-weight: 700;
+                 transition: background .15s; }
+  .btn-primary:hover { background: var(--teal); }
+  .btn-primary:disabled { opacity: .45; cursor: not-allowed; }
+  .btn-secondary { display: inline-flex; align-items: center; gap: 6px;
+                   font-size: 12px; padding: 7px 14px; background: var(--surface2);
+                   border: 0.5px solid var(--border2); border-radius: var(--radius);
+                   color: var(--muted); transition: all .15s; }
+  .btn-secondary:hover { color: var(--ink); border-color: rgba(255,255,255,0.22); }
+  .btn-export { display: inline-flex; align-items: center; gap: 6px; font-size: 12px;
+                padding: 7px 14px; background: var(--surface2);
+                border: 0.5px solid var(--border2); border-radius: var(--radius);
+                color: var(--muted); transition: all .15s; margin-top: 1rem; }
+  .btn-export:hover { color: var(--ink); border-color: rgba(255,255,255,0.22); }
+  .api-input { font-size: 12px; padding: 7px 10px; border: 0.5px solid var(--border2);
+               border-radius: var(--radius); background: var(--bg); color: var(--ink);
+               font-family: monospace; }
+  .api-input:focus { outline: none; border-color: var(--teal); }
+  .btn-connect { font-size: 12px; padding: 7px 14px; background: var(--teal-d);
+                 color: white; border-radius: var(--radius); font-weight: 600; white-space: nowrap; }
+  .btn-connect:hover { background: var(--teal); }
+
+  /* ─── STATUS ──────────────────────────────────────────────────────────── */
+  .status-txt { font-size: 12px; color: var(--muted); font-style: italic; }
+  .spinner { width: 14px; height: 14px; border: 2px solid rgba(16,185,129,0.2);
+             border-top-color: var(--teal); border-radius: 50%;
+             animation: spin .7s linear infinite; display: inline-block; }
   @keyframes spin { to { transform: rotate(360deg); } }
-  .status-txt { font-size: 12px; color: var(--text-muted); margin-left: auto; }
 
-  /* SCORE PANEL */
-  .score-panel { background: var(--bg-primary); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem; display: grid; grid-template-columns: auto 1fr; gap: 1.25rem; align-items: center; margin-bottom: 12px; }
-  .score-circle { width: 80px; height: 80px; border-radius: 50%; border: 3px solid var(--teal-light); display: flex; flex-direction: column; align-items: center; justify-content: center; flex-shrink: 0; }
-  .score-num { font-size: 28px; font-weight: 700; line-height: 1; }
-  .score-lbl { font-size: 10px; color: var(--text-muted); margin-top: 2px; }
-  .score-level { font-size: 17px; font-weight: 600; margin-bottom: 6px; }
-  .score-summary { font-size: 13px; color: var(--text-secondary); margin-bottom: 12px; line-height: 1.5; }
+  /* ─── RESULTS ─────────────────────────────────────────────────────────── */
+  .results-wrap { background: var(--surface); border: 0.5px solid var(--border2);
+                  border-radius: var(--radius-lg); overflow: hidden; margin-top: 1.25rem; }
+  .empty { display: flex; flex-direction: column; align-items: center;
+           justify-content: center; padding: 4rem 2rem; color: var(--dim);
+           text-align: center; gap: .5rem; }
+  .empty i { font-size: 2.5rem; color: var(--border2); }
+  .empty h3 { font-size: 15px; color: var(--muted); }
+  .empty p  { font-size: 13px; }
+
+  /* Score banner */
+  .score-banner { padding: 1.5rem; display: flex; align-items: center;
+                  gap: 1.5rem; flex-wrap: wrap;
+                  background: linear-gradient(135deg, var(--surface2), rgba(16,185,129,0.04)); }
+  .score-ring-wrap { position: relative; width: 80px; height: 80px; flex-shrink: 0; }
+  .score-ring-wrap svg { width: 80px; height: 80px; transform: rotate(-90deg); }
+  .score-ring-bg   { fill: none; stroke: var(--surface3); stroke-width: 8; }
+  .score-ring-fill { fill: none; stroke-width: 8; stroke-linecap: round; transition: stroke-dashoffset .6s; }
+  .score-num { position: absolute; inset: 0; display: flex; flex-direction: column;
+               align-items: center; justify-content: center; }
+  .score-num span:first-child { font-size: 22px; font-weight: 800; line-height: 1; }
+  .score-num span:last-child  { font-size: 9px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+  .score-info h2 { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+  .score-meta { font-size: 12px; color: var(--muted); display: flex; gap: 12px; flex-wrap: wrap; margin-top: 6px; }
+  .score-meta span { display: flex; align-items: center; gap: 5px; }
+  .summary-box { background: var(--surface2); border: 0.5px solid var(--border);
+                 border-radius: var(--radius); padding: .875rem 1rem;
+                 font-size: 13px; color: var(--muted); line-height: 1.65;
+                 margin: 0 1.5rem 1.5rem; }
+
+  /* Metric chips */
+  .metric-row { display: flex; gap: 8px; flex-wrap: wrap; padding: 0 1.5rem 1.5rem; }
+  .metric-chip { display: flex; flex-direction: column; align-items: center;
+                 padding: .625rem 1.25rem; border-radius: var(--radius);
+                 border: 0.5px solid var(--border); background: var(--surface2); min-width: 90px; }
+  .metric-chip .m-val { font-size: 22px; font-weight: 800; line-height: 1; }
+  .metric-chip .m-lbl { font-size: 10px; text-transform: uppercase;
+                         letter-spacing: .06em; color: var(--muted); margin-top: 2px; }
+
+  /* Section headers in results */
+  .result-section { border-top: 0.5px solid var(--border); }
+  .result-section-header { padding: .875rem 1.5rem; display: flex; align-items: center;
+                            gap: 8px; background: var(--surface2); }
+  .result-section-header h3 { font-size: 13px; font-weight: 700; }
+  .badge { font-size: 10px; padding: 2px 8px; border-radius: 20px;
+           font-weight: 700; margin-left: auto; }
+
+  /* Gap / recommendation rows */
+  .gap-row  { padding: .875rem 1.5rem; border-bottom: 0.5px solid var(--border);
+              display: grid; grid-template-columns: auto 1fr; gap: .75rem; }
+  .gap-row:last-child { border-bottom: none; }
+  .gap-row.row-critical { border-left: 3px solid var(--red); }
+  .gap-row.row-high     { border-left: 3px solid var(--amber); }
+  .gap-row.row-medium   { border-left: 3px solid var(--blue); }
+  .gap-row.row-low      { border-left: 3px solid var(--green); }
+  .gap-row.row-immediate{ border-left: 3px solid var(--red); }
+  .gap-row.row-short    { border-left: 3px solid var(--amber); }
+  .gap-row.row-medium-t { border-left: 3px solid var(--blue); }
+  .sev-badge  { font-size: 10px; padding: 2px 8px; border-radius: 20px; font-weight: 700;
+                white-space: nowrap; height: fit-content; }
+  .sev-critical { background: var(--red-bg);   color: var(--red);   }
+  .sev-high     { background: var(--amber-bg); color: var(--amber); }
+  .sev-medium   { background: var(--blue-bg);  color: var(--blue);  }
+  .sev-low      { background: var(--green-bg); color: var(--green); }
+  .badge-red    { background: var(--red-bg);   color: var(--red);   }
+  .badge-amber  { background: var(--amber-bg); color: var(--amber); }
+  .badge-green  { background: var(--green-bg); color: var(--green); }
+  .gap-title    { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+  .gap-desc     { font-size: 12px; color: var(--muted); margin-bottom: 6px; line-height: 1.55; }
+  .gap-rec      { font-size: 12px; color: var(--teal); display: flex; gap: 5px; }
+  .gap-rec i    { flex-shrink: 0; margin-top: 1px; }
+  .tool-align   { font-size: 11px; color: var(--dim); margin-top: 3px; }
+
+  /* Action plan */
+  .phase-row   { padding: .875rem 1.5rem; border-bottom: 0.5px solid var(--border); }
+  .phase-row:last-child { border-bottom: none; }
+  .phase-header { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+  .phase-num   { width: 24px; height: 24px; border-radius: 50%; background: var(--teal-d);
+                 color: white; display: flex; align-items: center; justify-content: center;
+                 font-size: 11px; font-weight: 700; flex-shrink: 0; }
+  .phase-name  { font-size: 13px; font-weight: 600; flex: 1; }
+  .phase-time  { font-size: 11px; color: var(--teal); font-weight: 600; }
+  .phase-actions { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+  .phase-actions li { font-size: 12px; color: var(--muted); display: flex; gap: 6px;
+                       align-items: flex-start; }
+  .phase-actions li::before { content: "›"; color: var(--teal); font-weight: 700; flex-shrink: 0; }
+
+  @media (max-width: 680px) {
+    .main { padding: 1rem; }
+    nav { padding: 0 1rem; }
+    .score-banner { flex-direction: column; align-items: flex-start; }
+    .metric-row { gap: 5px; }
+    .metric-chip { min-width: 70px; }
+  }
+
+  /* ─── RESULTS RENDER CLASSES (renderResults-specific) ─────────────────── */
+  .score-panel   { background: var(--surface); border: 0.5px solid var(--border2);
+                   border-radius: var(--radius-lg); padding: 1.25rem;
+                   display: grid; grid-template-columns: auto 1fr; gap: 1.25rem;
+                   margin-bottom: .875rem; align-items: start; }
+  @media (max-width:520px) { .score-panel { grid-template-columns:1fr; } }
+  .score-circle  { width: 80px; height: 80px; border-radius: 50%;
+                   border: 3px solid rgba(16,185,129,0.25);
+                   display: flex; flex-direction: column; align-items: center;
+                   justify-content: center; flex-shrink: 0; }
+  .score-num     { font-size: 28px; font-weight: 800; line-height: 1; }
+  .score-lbl     { font-size: 10px; color: var(--dim); margin-top: 2px;
+                   text-transform: uppercase; letter-spacing: .05em; }
+  .score-level   { font-size: 17px; font-weight: 700; margin-bottom: 6px; }
+  .score-summary { font-size: 13px; color: var(--muted); margin-bottom: 12px;
+                   line-height: 1.6; }
   .score-metrics { display: flex; gap: 20px; flex-wrap: wrap; }
-  .sm { text-align: center; }
-  .sm-val { font-size: 20px; font-weight: 600; }
-  .sm-lab { font-size: 10px; color: var(--text-muted); }
-
-  /* TABLES */
+  .sm            { text-align: center; }
+  .sm-val        { font-size: 20px; font-weight: 700; }
+  .sm-lab        { font-size: 10px; color: var(--dim); text-transform: uppercase;
+                   letter-spacing: .05em; }
   .table-section { margin-bottom: 12px; }
-  .table-header { background: var(--bg-primary); border: 0.5px solid var(--border); border-radius: var(--radius-lg) var(--radius-lg) 0 0; padding: 10px 1.25rem; display: flex; align-items: center; gap: 8px; border-bottom: 0.5px solid var(--border); }
+  .table-header  { background: var(--surface2); border: 0.5px solid var(--border2);
+                   border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+                   padding: .75rem 1rem; display: flex; align-items: center;
+                   gap: 8px; }
   .table-header i { font-size: 15px; color: var(--teal); }
-  .table-header-title { font-size: 13px; font-weight: 600; color: var(--text-primary); }
-  .table-header-badge { font-size: 10px; padding: 2px 8px; border-radius: 20px; margin-left: auto; font-weight: 600; }
-  .badge-red { background: var(--red-bg); color: var(--red); }
-  .badge-amber { background: var(--amber-bg); color: var(--amber); }
-  .badge-green { background: var(--green-bg); color: var(--green); }
-  .badge-blue { background: var(--blue-bg); color: var(--blue); }
-  .badge-teal { background: var(--teal-light); color: var(--teal-dark); }
-  .badge-gray { background: var(--bg-tertiary); color: var(--text-secondary); }
-  .table-wrap { border: 0.5px solid var(--border); border-top: none; border-radius: 0 0 var(--radius-lg) var(--radius-lg); overflow: hidden; }
-  table { width: 100%; border-collapse: collapse; font-size: 13px; background: var(--bg-primary); }
-  thead tr { background: var(--bg-secondary); }
-  thead th { padding: 9px 14px; text-align: left; font-size: 11px; font-weight: 600; color: var(--text-secondary); letter-spacing: 0.04em; text-transform: uppercase; border-bottom: 0.5px solid var(--border); white-space: nowrap; }
-  tbody tr { border-bottom: 0.5px solid var(--border); }
-  tbody tr:last-child { border-bottom: none; }
-  tbody td { padding: 10px 14px; vertical-align: top; line-height: 1.5; }
-  .col-sev { width: 95px; }
-  .col-pri { width: 115px; }
-  .col-time { width: 100px; white-space: nowrap; }
-  .col-num { width: 40px; text-align: center; }
-  .td-title { font-weight: 600; color: var(--text-primary); font-size: 13px; }
-  .td-desc { color: var(--text-secondary); font-size: 12px; }
-  .td-rec { color: var(--teal); font-size: 12px; }
-  .td-tool { color: var(--text-muted); font-size: 11px; }
-
-  /* ROW COLORS BY SEVERITY */
-  .row-critical { border-left: 4px solid #A32D2D !important; background: rgba(252,235,235,0.5); }
-  .row-high { border-left: 4px solid #854F0B !important; background: rgba(250,238,218,0.5); }
-  .row-medium { border-left: 4px solid #185FA5 !important; background: rgba(230,241,251,0.4); }
-  .row-low { border-left: 4px solid #3B6D11 !important; background: rgba(234,243,222,0.4); }
-  .row-immediate { border-left: 4px solid #A32D2D !important; background: rgba(252,235,235,0.4); }
-  .row-short { border-left: 4px solid #854F0B !important; background: rgba(250,238,218,0.4); }
-  .row-medterm { border-left: 4px solid #185FA5 !important; background: rgba(230,241,251,0.3); }
-  .row-phase { border-left: 4px solid #0F6E56 !important; background: rgba(225,245,238,0.3); }
-
-  .sev-pill { font-size: 10px; padding: 2px 8px; border-radius: 20px; white-space: nowrap; font-weight: 600; display: inline-block; }
-  .sev-critical { background: var(--red-bg); color: var(--red); }
-  .sev-high { background: var(--amber-bg); color: var(--amber); }
-  .sev-medium { background: var(--blue-bg); color: var(--blue); }
-  .sev-low { background: var(--green-bg); color: var(--green); }
-  .phase-num { width: 26px; height: 26px; border-radius: 50%; background: var(--teal-light); display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: var(--teal-dark); }
+  .table-header-title { font-size: 13px; font-weight: 700; color: var(--ink); }
+  .table-header-badge { font-size: 10px; padding: 2px 8px; border-radius: 20px;
+                        margin-left: auto; font-weight: 700; }
+  .badge-teal  { background: rgba(16,185,129,0.12); color: var(--teal); }
+  .table-wrap  { border: 0.5px solid var(--border2); border-top: none;
+                 border-radius: 0 0 var(--radius-lg) var(--radius-lg); overflow: hidden; }
+  .table-wrap table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .table-wrap th { padding: 8px 12px; background: var(--surface3); text-align: left;
+                   font-size: 10px; font-weight: 700; text-transform: uppercase;
+                   letter-spacing: .06em; color: var(--muted);
+                   border-bottom: 0.5px solid var(--border2); white-space: nowrap; }
+  .table-wrap td { padding: 10px 12px; border-bottom: 0.5px solid var(--border);
+                   vertical-align: top; color: var(--muted); line-height: 1.5; }
+  .table-wrap tr:last-child td { border-bottom: none; }
+  .table-wrap tr:hover td { background: rgba(255,255,255,0.02); }
+  .col-sev   { width: 95px; }
+  .col-pri   { width: 115px; }
+  .col-time  { width: 110px; white-space: nowrap; }
+  .col-num   { width: 40px; text-align: center; }
+  .td-title  { font-weight: 600; color: var(--ink); font-size: 13px; }
+  .td-desc   { color: var(--muted); font-size: 12px; }
+  .td-rec    { color: var(--teal); font-size: 12px; }
+  .td-tool   { color: var(--dim); font-size: 11px; }
+  .row-phase { border-left: 4px solid var(--teal-d) !important;
+               background: rgba(16,185,129,0.04); }
+  .row-critical { border-left: 4px solid var(--red); }
+  .row-high     { border-left: 4px solid var(--amber); }
+  .row-medium   { border-left: 4px solid var(--blue); }
+  .row-low      { border-left: 4px solid var(--green); }
+  .row-immediate{ border-left: 4px solid var(--red); }
+  .row-short    { border-left: 4px solid var(--amber); }
+  .sev-pill    { font-size: 10px; padding: 2px 8px; border-radius: 20px;
+                 white-space: nowrap; font-weight: 700; display: inline-block; }
+  .phase-num   { width: 26px; height: 26px; border-radius: 50%;
+                 background: rgba(16,185,129,0.15); border: 1px solid var(--teal);
+                 display: inline-flex; align-items: center; justify-content: center;
+                 color: var(--teal); font-size: 11px; font-weight: 700; flex-shrink: 0; }
   .actions-list { margin: 0; padding: 0; list-style: none; }
-  .actions-list li { font-size: 12px; color: var(--text-secondary); padding: 2px 0; display: flex; align-items: flex-start; gap: 5px; }
-  .actions-list li::before { content: '›'; color: var(--teal); font-weight: 600; flex-shrink: 0; }
-  .empty { text-align: center; padding: 3rem 1rem; border: 0.5px dashed var(--border-strong); border-radius: var(--radius-lg); color: var(--text-secondary); background: var(--bg-primary); }
-  .empty i { font-size: 36px; color: var(--border-strong); display: block; margin-bottom: 12px; }
-  .empty h3 { font-size: 15px; font-weight: 500; color: var(--text-primary); margin-bottom: 6px; }
-  .empty p { font-size: 12px; }
-  .error-box { background: var(--red-bg); border: 0.5px solid var(--red); border-radius: var(--radius-lg); padding: 1rem 1.25rem; color: var(--red); font-size: 13px; margin-bottom: 10px; }
+  .actions-list li { font-size: 12px; color: var(--muted); padding: 2px 0;
+                     display: flex; align-items: flex-start; gap: 6px; }
+  .actions-list li::before { content: '›'; color: var(--teal); font-weight: 700; flex-shrink: 0; }
   .export-bar { display: flex; justify-content: flex-end; margin-bottom: 8px; }
-  footer { text-align: center; padding: 2rem 1rem 1rem; font-size: 11px; color: var(--text-muted); border-top: 0.5px solid var(--border); margin-top: 2rem; }
-  footer a { color: var(--teal); text-decoration: none; }
-  @media (max-width: 700px) { .two-col, .sel-row { grid-template-columns: 1fr; } .score-panel { grid-template-columns: 1fr; } .nav-links { display: none; } .api-input { width: 180px; } }
+
+
+  /* ─── RESULTS TABS ─────────────────────────────────────────────────────── */
+  .res-tabs-bar { display:flex; gap:2px; padding:.75rem 1.25rem .5rem;
+                  border-bottom:0.5px solid var(--border); background:var(--surface);
+                  overflow-x:auto; flex-shrink:0; }
+  .res-tab { padding:7px 16px; border-radius:var(--radius); font-size:12px;
+             font-weight:600; color:rgba(255,255,255,0.75); background:none;
+             display:flex; align-items:center; gap:6px; white-space:nowrap;
+             transition:all .15s; }
+  .res-tab i { font-size:14px; }
+  .res-tab:hover { color:#fff; }
+  .res-tab.active { background:var(--surface2); color:#fff; }
+  .res-panel { display:none; padding:1.25rem; }
+  .res-panel.active { display:block; }
+  .results-wrap { background:var(--surface); border:0.5px solid var(--border2);
+                  border-radius:var(--radius-lg); overflow:hidden; margin-top:1.25rem; }
+
 </style>
 </head>
 <body>
@@ -161,27 +366,36 @@
   <div class="nav-brand">
     <div class="nav-logo"><i class="ti ti-cpu"></i></div>
     <div>
-      <div class="nav-title">AgentPM</div>
+      <div class="nav-title">AI</div>
       <div class="nav-sub">AI Portfolio · Daniel Mazzini</div>
     </div>
   </div>
   <div class="nav-links">
-    <a class="nav-link" href="index.html"><i class="ti ti-home" style="font-size:12px;vertical-align:-1px;margin-right:3px"></i>All agents</a>
-    <span class="nav-tag">Agent 1 of 4</span>
+    <a class="nav-link" href="index.html"><i class="ti ti-home" style="font-size:12px;vertical-align:-1px;margin-right:3px"></i></a>
   </div>
 </nav>
 
 <main class="main">
 
-  <div class="api-banner" id="api-banner">
-    <i class="ti ti-key api-icon"></i>
-    <div class="api-text">
-      <strong>Anthropic API key required</strong>
-      <p>Your key is stored locally in your browser and never sent anywhere except Anthropic's API.</p>
+  <div class="mode-bar">
+    <div class="mode-group">
+      <div class="mode-lbl"><i class="ti ti-cpu"></i> Provider</div>
+      <div class="mode-pills">
+        <button class="mode-pill active" id="mode-demo"   onclick="setMode('demo')"><i class="ti ti-player-play"></i> Demo</button>
+        <button class="mode-pill"        id="mode-claude" onclick="setMode('claude')"><i class="ti ti-sparkles"></i> Claude</button>
+        <button class="mode-pill"        id="mode-openai" onclick="setMode('openai')"><i class="ti ti-brand-openai"></i> OpenAI</button>
+      </div>
     </div>
-    <div class="api-input-wrap">
-      <input class="api-input" type="password" id="api-key" placeholder="sk-ant-..." oninput="checkKey()">
-      <button class="btn-connect" onclick="saveKey()">Connect</button>
+    <div class="key-group" id="key-group" style="display:none">
+      <div class="mode-lbl"><i class="ti ti-key"></i> API Key</div>
+      <div class="key-row">
+        <input class="api-input" type="password" id="api-key" placeholder="sk-ant-..." style="flex:1;min-width:220px">
+        <button class="btn-connect" onclick="saveKey()">Connect</button>
+      </div>
+    </div>
+    <div class="mode-status" id="mode-status">
+      <i class="ti ti-player-play"></i>
+      <span><strong>Demo Mode</strong> — No API key needed. Full pre-built analysis.</span>
     </div>
   </div>
 
@@ -278,16 +492,172 @@
 </main>
 
 <footer>
-  <p>AgentPM · Cloud Network Security Advisor · <a href="https://www.linkedin.com/in/daniel-mazzini-22059734/" target="_blank">Daniel Mazzini</a> · Principal Architect & Senior TPM</p>
-  <p style="margin-top:4px">Built with Claude API · Part of the AgentPM AI Portfolio</p>
+  <p>AI · Cloud Network Security Advisor · <a href="https://www.linkedin.com/in/daniel-mazzini-22059734/" target="_blank">Daniel Mazzini</a> · Principal Architect & Senior TPM</p>
+  <p style="margin-top:4px">Daniel Mazzini - AI Portfolio 2026</p>
 </footer>
 
 <script>
+
+// === DEMO DATA ==============================================================
+const DEMO_ANALYSIS = {
+  risk_score: 71, risk_level: "High",
+  summary: "The hybrid multi-cloud environment has critical gaps in east-west segmentation, MFA enforcement, and secret management. Three critical findings require immediate remediation. NIST CSF and PCI-DSS compliance is at risk without structured action in the next 30 days.",
+  metrics: { gaps_critical: 3, gaps_high: 5, gaps_medium: 4, recommendations: 9 },
+  gaps: [
+    { title:"No micro-segmentation on east-west traffic", severity:"Critical",
+      description:"Internal workloads communicate without policy enforcement. A single compromised VM can move laterally across all segments with no inspection or kill switch.",
+      recommendation:"Deploy NSX distributed firewall with deny-all default. Use NSX Intelligence to map existing traffic flows before writing rules." },
+    { title:"MFA not enforced on privileged console access", severity:"Critical",
+      description:"Cloud management consoles allow password-only authentication — the number one initial access vector in cloud breach incidents.",
+      recommendation:"Enforce FIDO2/hardware-key MFA on all privileged accounts within 72 hours. Revoke any standing admin access not protected by MFA immediately." },
+    { title:"Unencrypted data-in-transit on internal API calls", severity:"Critical",
+      description:"Service-to-service API calls traverse unencrypted HTTP, exposing credentials and PII to passive interception.",
+      recommendation:"Enforce mTLS on all internal service communication using Istio or NSX Service Mesh. Implement certificate rotation via Vault." },
+    { title:"Wildcard IAM roles in production", severity:"High",
+      description:"Production IAM policies contain wildcard (*) actions on critical resource types. Least-privilege has not been applied.",
+      recommendation:"Run AWS IAM Access Analyzer. Remove all wildcard actions and replace with scoped policies. Implement JIT access." },
+    { title:"No WAF on public-facing API endpoints", severity:"High",
+      description:"Public APIs lack WAF protection. OWASP Top 10 attacks including injection and SSRF are unblocked at the perimeter.",
+      recommendation:"Deploy AWS WAF or Azure Front Door WAF with managed OWASP rule sets. Enable rate limiting per IP." },
+    { title:"SD-WAN branches lack Zero Trust posture checks", severity:"High",
+      description:"Branch offices connect via SD-WAN tunnels without device posture validation. Compromised branches gain implicit network trust.",
+      recommendation:"Integrate SASE with EDR health, certificate validation, and patch-level posture checks before tunnel establishment." },
+    { title:"Secrets hardcoded in CI/CD pipeline scripts", severity:"High",
+      description:"API keys and database credentials hardcoded in pipeline scripts — some over 180 days old with no rotation.",
+      recommendation:"Migrate all secrets to HashiCorp Vault or AWS Secrets Manager. Enforce secret scanning in pre-commit hooks." },
+    { title:"Network flow logs not forwarded to SIEM", severity:"High",
+      description:"VPC flow logs and NSX firewall logs are not in SIEM. Lateral movement and data exfiltration will go undetected.",
+      recommendation:"Forward all flow and firewall logs to SIEM. Build detection rules for lateral movement and unusual egress patterns." },
+    { title:"TLS 1.0 and 1.1 active on legacy load balancers", severity:"Medium",
+      description:"Three load balancers still accept deprecated TLS versions vulnerable to BEAST, POODLE, and CRIME attacks.",
+      recommendation:"Disable TLS 1.0 and 1.1. Enforce TLS 1.2 minimum with strong cipher suites. Validate configuration with SSL Labs." },
+    { title:"No DLP policy on cloud storage with PII", severity:"Medium",
+      description:"S3 and Azure Blob containers holding customer PII have no data loss prevention policies or public-access blocks.",
+      recommendation:"Enable Macie (AWS) or Purview (Azure). Apply deny-public-access bucket policies. Enable object-level logging." },
+    { title:"Container images not scanned for CVEs before deployment", severity:"Medium",
+      description:"Workloads deploy from unscanned base images. Known CVEs in running containers include several with CVSS scores above 8.0.",
+      recommendation:"Integrate Trivy or Twistlock into CI/CD pipeline. Block images with Critical or High CVEs from deployment." },
+    { title:"Firewall rule base not reviewed in 18 months", severity:"Medium",
+      description:"340+ firewall rules in production with no documented review. Shadow rules and orphaned objects create unpredictable policy behavior.",
+      recommendation:"Audit rule base with Tufin or AlgoSec. Remove orphaned rules. Establish a quarterly review cadence." }
+  ],
+  hardening_recommendations: [
+    { title:"NSX micro-segmentation with deny-all default", priority:"Immediate",
+      description:"Deploy distributed firewall with application-based policy. Use NSX Intelligence to map traffic flows before writing deny rules. Start with DMZ and payment workloads.",
+      tool_alignment:"VMware NSX, NSX Intelligence" },
+    { title:"FIDO2 MFA on all cloud console access", priority:"Immediate",
+      description:"Mandatory hardware-key or biometric MFA on AWS IAM, Azure portal, and vCenter. Use mTLS for service accounts — no password authentication.",
+      tool_alignment:"AWS IAM, Azure Entra ID, Okta" },
+    { title:"mTLS on all internal service communication", priority:"Immediate",
+      description:"Deploy Istio or NSX Service Mesh. Issue short-lived certificates via Vault. Enforce mutual authentication on all east-west API calls.",
+      tool_alignment:"Istio, HashiCorp Vault, NSX Service Mesh" },
+    { title:"Centralized secret management", priority:"Short-term",
+      description:"Replace all hardcoded credentials with Vault dynamic secrets. Automatic rotation. Block secrets in CI/CD with pre-commit hooks and pipeline gates.",
+      tool_alignment:"HashiCorp Vault, AWS Secrets Manager, GitGuardian" },
+    { title:"WAF on all public-facing APIs", priority:"Short-term",
+      description:"Enable managed OWASP rule sets. Rate limiting at 100 req/min per IP. Geo-blocking for regions with no business traffic.",
+      tool_alignment:"AWS WAF, Azure Front Door, Cloudflare" },
+    { title:"Full SIEM log pipeline from network layer", priority:"Short-term",
+      description:"Forward VPC flow logs, NSX firewall logs, and WAF logs to SIEM. Build detection rules for lateral movement, port scanning, and credential stuffing.",
+      tool_alignment:"Splunk, Microsoft Sentinel, Elastic SIEM" },
+    { title:"Least-privilege IAM with JIT access", priority:"Short-term",
+      description:"Remove all wildcard IAM policies. Implement just-in-time privileged access with Vault or Azure PIM. Automated 30-day access reviews.",
+      tool_alignment:"AWS IAM, Azure PIM, HashiCorp Vault" },
+    { title:"SASE device posture for SD-WAN branches", priority:"Medium-term",
+      description:"Require EDR health check, certificate validation, and OS patch compliance before tunnel establishment. Continuous posture verification.",
+      tool_alignment:"VMware SASE, Palo Alto Prisma Access, Zscaler" },
+    { title:"Container CVE scanning in CI/CD", priority:"Medium-term",
+      description:"Block container builds with Critical or High CVEs. Enforce signed images with Cosign. Weekly registry scans with alerts on newly disclosed CVEs.",
+      tool_alignment:"Trivy, Twistlock, Snyk, AWS ECR scanning" }
+  ],
+  action_plan: [
+    { phase:"Critical remediation", timeline:"Week 1-2",
+      actions:["Enforce FIDO2 MFA on all privileged cloud console access",
+               "Enable NSX deny-all default policy on DMZ and payment segments",
+               "Rotate all exposed secrets and migrate to Vault or Secrets Manager",
+               "Disable TLS 1.0 and 1.1 on all load balancers"] },
+    { phase:"Architecture hardening", timeline:"Week 3-6",
+      actions:["Deploy mTLS with Istio or NSX Service Mesh across all internal services",
+               "Enable WAF with OWASP managed rules on all public-facing APIs",
+               "Forward all VPC, NSX, and WAF logs to SIEM with detection rules",
+               "Remove all wildcard IAM policies and implement JIT access"] },
+    { phase:"Zero Trust maturity", timeline:"Week 7-12",
+      actions:["Integrate SASE posture checks for all SD-WAN branch tunnels",
+               "Implement container CVE scanning gate in CI/CD pipeline",
+               "Deploy DLP controls on all cloud storage containing PII",
+               "Complete firewall rule base audit and remove all orphaned rules"] }
+  ]
+};
+
+// === PRESERVED CONSTANTS ====================================================
 const SAMPLE = `Enterprise private cloud running VMware Cloud Foundation (VCF) across 3 data centers. North-south traffic managed by a traditional perimeter firewall with basic ACLs. East-west traffic between workloads is largely flat with no microsegmentation applied. Remote workforce access via legacy VPN with no MFA enforced. No consistent network monitoring or visibility into lateral movement between workloads. A recent merger added 2,000 new endpoints with unknown security posture integrated into the same flat network. Cloud workloads in AWS and Azure connected via site-to-site VPN with no consistent policy enforcement between environments.`;
 const COMPLIANCE_VALS = ['NIST CSF','ISO 27001','SOC 2','PCI-DSS','HIPAA','FedRAMP','GDPR','None specified'];
 
+// === STATE ==================================================================
 let lastAnalysis = null;
+let currentMode  = 'demo';
 
+// === MODE MANAGEMENT ========================================================
+function setMode(mode) {
+  currentMode = mode;
+  ['demo','claude','openai'].forEach(m => {
+    const el = document.getElementById('mode-' + m);
+    if (!el) return;
+    el.className = 'mode-pill' + (m === mode ? (m === 'openai' ? ' active-openai' : ' active') : '');
+  });
+  const kg = document.getElementById('key-group');
+  const st = document.getElementById('mode-status');
+  if (mode === 'demo') {
+    if (kg) kg.style.display = 'none';
+    if (st) { st.className = 'mode-status'; st.innerHTML = '<i class="ti ti-player-play"></i><span><strong>Demo Mode</strong> — No API key needed. Full pre-built analysis in 1 second.</span>'; }
+  } else if (mode === 'claude') {
+    if (kg) kg.style.display = '';
+    document.getElementById('api-key').placeholder = 'sk-ant-...';
+    const saved = localStorage.getItem('sa_claude_key');
+    if (saved) document.getElementById('api-key').value = saved;
+    if (st) { st.className = 'mode-status'; st.innerHTML = '<i class="ti ti-sparkles"></i><span><strong>Claude API</strong> — Enter your Anthropic key (sk-ant-...)</span>'; }
+  } else {
+    if (kg) kg.style.display = '';
+    document.getElementById('api-key').placeholder = 'sk-...';
+    const saved = localStorage.getItem('sa_openai_key');
+    if (saved) document.getElementById('api-key').value = saved;
+    if (st) { st.className = 'mode-status openai-status'; st.innerHTML = '<i class="ti ti-brand-openai"></i><span><strong>OpenAI API</strong> — Enter your OpenAI key (sk-...)</span>'; }
+  }
+}
+
+function saveKey() {
+  const k = document.getElementById('api-key').value.trim();
+  const st = document.getElementById('mode-status');
+  if (currentMode === 'claude') {
+    if (!k.startsWith('sk-ant-')) { alert('Please enter a valid Anthropic key starting with sk-ant-'); return; }
+    localStorage.setItem('sa_claude_key', k);
+    if (st) { st.className = 'mode-status'; st.innerHTML = '<i class="ti ti-shield-check"></i><span><strong>Claude connected</strong> — claude-haiku-4-5 ready</span>'; }
+  } else {
+    if (!k.startsWith('sk-')) { alert('Please enter a valid OpenAI key starting with sk-'); return; }
+    localStorage.setItem('sa_openai_key', k);
+    if (st) { st.className = 'mode-status openai-status'; st.innerHTML = '<i class="ti ti-shield-check"></i><span><strong>OpenAI connected</strong> — gpt-4o-mini ready</span>'; }
+  }
+}
+
+function getApiKey() {
+  if (currentMode === 'claude') return localStorage.getItem('sa_claude_key') || document.getElementById('api-key')?.value?.trim() || '';
+  if (currentMode === 'openai') return localStorage.getItem('sa_openai_key') || document.getElementById('api-key')?.value?.trim() || '';
+  return 'demo';
+}
+
+function getChecked() {
+  return Array.from(document.querySelectorAll('input[type=checkbox]:checked')).map(cb => cb.value);
+}
+
+window.addEventListener('load', () => {
+  setMode('demo');
+  const savedClaude = localStorage.getItem('sa_claude_key');
+  const savedOpenAI = localStorage.getItem('sa_openai_key');
+  if (savedClaude) document.getElementById('api-key').value = savedClaude;
+  else if (savedOpenAI) document.getElementById('api-key').value = savedOpenAI;
+});
+
+// === PRESERVED: loadSample & clearAll =======================================
 function loadSample() {
   document.getElementById('topology').value = SAMPLE;
   document.querySelectorAll('input[type=checkbox]').forEach(cb => {
@@ -305,110 +675,42 @@ function clearAll() {
   lastAnalysis = null;
 }
 
-function checkKey() {
-  const key = document.getElementById('api-key').value.trim();
-  if (key.startsWith('sk-ant-') && key.length > 20) document.getElementById('api-banner').style.borderColor = 'var(--teal)';
-}
-
-function saveKey() {
-  const key = document.getElementById('api-key').value.trim();
-  if (!key || !key.startsWith('sk-ant-')) { alert('Please enter a valid Anthropic API key starting with sk-ant-'); return; }
-  localStorage.setItem('agentpm_api_key', key);
-  const banner = document.getElementById('api-banner');
-  banner.classList.add('connected');
-  banner.innerHTML = `<i class="ti ti-shield-check api-icon" style="color:var(--teal-dark)"></i><div class="api-text"><strong>API key connected</strong><p><span class="dot"></span>Ready to analyze · Key stored locally in your browser</p></div><button class="btn-disconnect" onclick="disconnectKey()">Disconnect</button>`;
-}
-
-function disconnectKey() { localStorage.removeItem('agentpm_api_key'); location.reload(); }
-function getApiKey() { return localStorage.getItem('agentpm_api_key') || document.getElementById('api-key')?.value?.trim() || ''; }
-function getChecked() { return Array.from(document.querySelectorAll('input[type=checkbox]:checked')).map(cb => cb.value); }
-
-window.addEventListener('load', () => {
-  const saved = localStorage.getItem('agentpm_api_key');
-  if (saved) { document.getElementById('api-key').value = saved; saveKey(); }
-});
-
+// === MAIN ANALYSIS ==========================================================
 async function runAnalysis() {
-  const apiKey = getApiKey();
-  if (!apiKey) { alert('Please enter your Anthropic API key first.'); return; }
-  const topology = document.getElementById('topology').value.trim();
-  if (!topology) { alert('Please describe your network topology first.'); return; }
-
-  const all = getChecked();
-  const tools = all.filter(v => !COMPLIANCE_VALS.includes(v));
-  const compliance = all.filter(v => COMPLIANCE_VALS.includes(v));
-  const env = document.getElementById('env-type').value;
-  const maturity = document.getElementById('maturity').value;
-
-  const btn = document.getElementById('run-btn');
+  const btn       = document.getElementById('run-btn');
   const statusTxt = document.getElementById('status-txt');
+  const topology  = document.getElementById('topology').value.trim();
+
+  if (currentMode !== 'demo' && !topology) { alert('Please describe your network topology first.'); return; }
+
+  const all        = getChecked();
+  const tools      = all.filter(v => !COMPLIANCE_VALS.includes(v));
+  const compliance = all.filter(v =>  COMPLIANCE_VALS.includes(v));
+  const env        = document.getElementById('env-type').value;
+  const maturity   = document.getElementById('maturity').value;
+
   btn.disabled = true;
   btn.innerHTML = '<div class="spinner"></div> Analyzing...';
-  statusTxt.textContent = 'Connecting to Claude API...';
+  statusTxt.textContent = currentMode === 'demo' ? 'Loading demo analysis...' : 'Connecting to ' + (currentMode === 'claude' ? 'Claude' : 'OpenAI') + ' API...';
   lastAnalysis = null;
-
-  document.getElementById('results').innerHTML = `<div class="empty"><i class="ti ti-loader-2" style="animation:spin 1s linear infinite"></i><h3>Analyzing security posture...</h3><p>Evaluating topology, tools, compliance requirements, and maturity level</p></div>`;
-
-  const prompt = `You are a Principal Cloud Network Security Architect with deep expertise in VMware NSX, vDefend ATP, SASE, SD-WAN, Zero Trust architecture, and enterprise security hardening. You have delivered security hardening programs for Fortune 500 companies and presented best practices at VMware Explore.
-
-Analyze this security scenario. CRITICAL: Return ONLY the raw JSON object. Do NOT wrap it in markdown code blocks. Do NOT use backticks. Do NOT add any text before or after the JSON. Start your response with { and end with }.
-
-ENVIRONMENT: ${env}
-MATURITY: ${maturity}
-TOOLS: ${tools.length ? tools.join(', ') : 'None'}
-COMPLIANCE: ${compliance.length ? compliance.join(', ') : 'None specified'}
-TOPOLOGY: ${topology}
-
-Return exactly this JSON structure:
-{
-  "risk_score": <integer 0-100>,
-  "risk_level": "<Critical|High|Medium|Low>",
-  "summary": "<2-3 sentence executive summary>",
-  "metrics": {"gaps_critical": <int>, "gaps_high": <int>, "gaps_medium": <int>, "recommendations": <int>},
-  "gaps": [{"title": "<name>", "severity": "<Critical|High|Medium|Low>", "description": "<what and why>", "recommendation": "<specific action>"}],
-  "hardening_recommendations": [{"title": "<name>", "priority": "<Immediate|Short-term|Medium-term>", "description": "<what to do>", "tool_alignment": "<tools>"}],
-  "action_plan": [{"phase": "<name>", "timeline": "<e.g. Week 1-2>", "actions": ["<action>", "<action>", "<action>"]}]
-}`;
+  document.getElementById('results').innerHTML = '<div class="empty"><i class="ti ti-loader-2" style="animation:spin 1s linear infinite;font-size:2rem"></i><p style="margin-top:1rem">Analyzing your security posture...</p></div>';
 
   try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true'
-      },
-      body: JSON.stringify({ model: 'claude-haiku-4-5-20251001', max_tokens: 8000, messages: [{ role: 'user', content: prompt }] })
-    });
-
-    if (!res.ok) { const err = await res.json(); throw new Error(err.error?.message || `API error ${res.status}`); }
-
-    const data = await res.json();
-    const raw = data.content?.find(b => b.type === 'text')?.text || '';
-
-    if (!raw) {
-      document.getElementById('results').innerHTML = `<div class="error-box"><strong>Debug — Full API response:</strong><pre style="font-size:11px;margin-top:8px;white-space:pre-wrap;overflow:auto;max-height:400px">${JSON.stringify(data, null, 2)}</pre></div>`;
-      return;
-    }
-
     let analysis;
-    try {
-      const firstBrace = raw.indexOf('{');
-      const lastBrace = raw.lastIndexOf('}');
-      if (firstBrace === -1 || lastBrace === -1) throw new Error('No JSON object found in response');
-      const jsonStr = raw.substring(firstBrace, lastBrace + 1);
-      analysis = JSON.parse(jsonStr);
-    }
-    catch(e) {
-      document.getElementById('results').innerHTML = `<div class="error-box"><strong>Parse error:</strong> The API returned an unexpected format. Raw response:<br><pre style="font-size:11px;margin-top:8px;white-space:pre-wrap">${raw}</pre></div>`;
-      return;
+    if (currentMode === 'demo') {
+      await new Promise(r => setTimeout(r, 900));
+      analysis = DEMO_ANALYSIS;
+    } else {
+      const apiKey = getApiKey();
+      if (!apiKey) { alert('Please enter your ' + (currentMode === 'claude' ? 'Anthropic' : 'OpenAI') + ' API key and click Connect.'); return; }
+      const prompt = buildPrompt(env, maturity, tools, compliance, topology);
+      analysis = currentMode === 'claude' ? await callClaude(apiKey, prompt) : await callOpenAI(apiKey, prompt);
     }
     lastAnalysis = analysis;
     renderResults(analysis, env, maturity);
     statusTxt.textContent = 'Analysis complete';
   } catch(err) {
-    document.getElementById('results').innerHTML = `<div class="error-box"><strong><i class="ti ti-alert-circle" style="vertical-align:-2px;margin-right:6px"></i>Error:</strong> ${err.message}</div>`;
+    document.getElementById('results').innerHTML = '<div style="padding:1.5rem;color:#A32D2D;background:#FEE2E2;border-radius:8px"><strong>Error:</strong> ' + err.message + '</div>';
     statusTxt.textContent = '';
   } finally {
     btn.disabled = false;
@@ -416,132 +718,235 @@ Return exactly this JSON structure:
   }
 }
 
+function buildPrompt(env, maturity, tools, compliance, topology) {
+  return `You are a Principal Cloud Network Security Architect with deep expertise in VMware NSX, SASE, SD-WAN, Zero Trust, and enterprise security hardening.
+
+Analyze this security scenario. Return ONLY raw JSON — no markdown, no backticks. Start with { end with }.
+
+ENVIRONMENT: ${env}
+MATURITY: ${maturity}
+TOOLS IN USE: ${tools.length ? tools.join(', ') : 'None'}
+COMPLIANCE: ${compliance.length ? compliance.join(', ') : 'None specified'}
+TOPOLOGY: ${topology}
+
+Return this exact JSON structure:
+{
+  "risk_score": <0-100>,
+  "risk_level": "<Critical|High|Medium|Low>",
+  "summary": "<2-3 sentence executive summary>",
+  "metrics": {"gaps_critical":<int>,"gaps_high":<int>,"gaps_medium":<int>,"recommendations":<int>},
+  "gaps": [{"title":"<name>","severity":"<Critical|High|Medium|Low>","description":"<what and why>","recommendation":"<specific action>"}],
+  "hardening_recommendations": [{"title":"<name>","priority":"<Immediate|Short-term|Medium-term>","description":"<what to do>","tool_alignment":"<tools>"}],
+  "action_plan": [{"phase":"<name>","timeline":"<e.g. Week 1-2>","actions":["<action>"]}]
+}`;
+}
+
+async function callClaude(apiKey, prompt) {
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'x-api-key': apiKey,
+               'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+    body: JSON.stringify({ model: 'claude-haiku-4-5-20251001', max_tokens: 8000,
+                            messages: [{ role: 'user', content: prompt }] })
+  });
+  if (!res.ok) { const e = await res.json(); throw new Error(e.error?.message || 'Claude API error ' + res.status); }
+  const data = await res.json();
+  return parseJSON(data.content?.find(b => b.type === 'text')?.text || '');
+}
+
+async function callOpenAI(apiKey, prompt) {
+  const res = await fetch('https://api.openai.com/v1/chat/completions', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + apiKey },
+    body: JSON.stringify({ model: 'gpt-4o-mini', max_tokens: 8000,
+                            messages: [{ role: 'user', content: prompt }] })
+  });
+  if (!res.ok) { const e = await res.json(); throw new Error(e.error?.message || 'OpenAI API error ' + res.status); }
+  const data = await res.json();
+  return parseJSON(data.choices?.[0]?.message?.content || '');
+}
+
+function parseJSON(raw) {
+  const first = raw.indexOf('{'), last = raw.lastIndexOf('}');
+  if (first === -1) throw new Error('No JSON in API response — please try again.');
+  const chunk = raw.substring(first, last + 1);
+  for (const fn of [
+    s => JSON.parse(s),
+    s => JSON.parse(s.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, '')),
+    s => JSON.parse(s.replace(/\r?\n|\t/g, ' ')),
+    s => { let f = s.replace(/,\s*$/, '');
+             const op=(f.match(/\[/g)||[]).length-(f.match(/\]/g)||[]).length;
+             const ob=(f.match(/\{/g)||[]).length-(f.match(/\}/g)||[]).length;
+             for(let i=0;i<op;i++)f+=']'; for(let i=0;i<ob;i++)f+='}';
+             return JSON.parse(f); }
+  ]) { try { return fn(chunk); } catch(e) {} }
+  throw new Error('Malformed JSON from API — please try again.');
+}
+
+// === PRESERVED: render helpers + renderResults + exportToExcel ==============
 function riskColor(l) { return {Critical:'#A32D2D',High:'#854F0B',Medium:'#185FA5',Low:'#3B6D11'}[l]||'#5F5E5A'; }
 function sevClass(s) { return {Critical:'sev-critical',High:'sev-high',Medium:'sev-medium',Low:'sev-low'}[s]||'sev-low'; }
 function sevRowClass(s) { return {Critical:'row-critical',High:'row-high',Medium:'row-medium',Low:'row-low'}[s]||''; }
 function priRowClass(p) { return {Immediate:'row-immediate','Short-term':'row-short','Medium-term':'row-medterm'}[p]||''; }
 function priBadge(p) { return {Immediate:'badge-red','Short-term':'badge-amber','Medium-term':'badge-blue'}[p]||'badge-gray'; }
 
+function switchTab(tabId) {
+  document.querySelectorAll('.res-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tabId));
+  document.querySelectorAll('.res-panel').forEach(p => p.classList.toggle('active', p.id === 'panel-' + tabId));
+}
+
 function renderResults(a, env, maturity) {
   const score = Math.round(Math.min(100, Math.max(0, a.risk_score || 50)));
   const level = a.risk_level || 'Medium';
-  const m = a.metrics || {};
-  const gaps = (a.gaps || []).sort((x,y) => (['Critical','High','Medium','Low'].indexOf(x.severity)) - (['Critical','High','Medium','Low'].indexOf(y.severity)));
-  const recs = (a.hardening_recommendations || []).sort((x,y) => (['Immediate','Short-term','Medium-term'].indexOf(x.priority)) - (['Immediate','Short-term','Medium-term'].indexOf(y.priority)));
-  const plan = a.action_plan || [];
+  const m     = a.metrics || {};
+  const gaps  = (a.gaps || []).sort((x,y) => ['Critical','High','Medium','Low'].indexOf(x.severity) - ['Critical','High','Medium','Low'].indexOf(y.severity));
+  const recs  = (a.hardening_recommendations || []).sort((x,y) => ['Immediate','Short-term','Medium-term'].indexOf(x.priority) - ['Immediate','Short-term','Medium-term'].indexOf(y.priority));
+  const plan  = a.action_plan || [];
+  const col   = riskColor(level);
 
-  let html = `
-    <div class="export-bar">
-      <button class="btn-export" onclick="exportToExcel()"><i class="ti ti-file-spreadsheet"></i> Export to Excel</button>
-    </div>
-    <div class="score-panel">
-      <div class="score-circle" style="border-color:${riskColor(level)}30">
-        <span class="score-num" style="color:${riskColor(level)}">${score}</span>
-        <span class="score-lbl">risk score</span>
+  /* ── TAB BAR ── */
+  const tabBar = `
+    <div class="res-tabs-bar">
+      <button class="res-tab active" data-tab="overview"  onclick="switchTab('overview')">
+        <i class="ti ti-layout-dashboard"></i> Overview</button>
+      <button class="res-tab" data-tab="gaps"     onclick="switchTab('gaps')">
+        <i class="ti ti-alert-triangle"></i> Security Gaps
+        <span style="background:var(--red-bg);color:var(--red);font-size:10px;padding:1px 7px;border-radius:20px;font-weight:700">${gaps.length}</span>
+      </button>
+      <button class="res-tab" data-tab="recs"     onclick="switchTab('recs')">
+        <i class="ti ti-shield-lock"></i> Hardening
+        <span style="background:rgba(16,185,129,0.12);color:var(--teal);font-size:10px;padding:1px 7px;border-radius:20px;font-weight:700">${recs.length}</span>
+      </button>
+      <button class="res-tab" data-tab="plan"     onclick="switchTab('plan')">
+        <i class="ti ti-calendar-check"></i> 90-Day Plan
+        <span style="background:var(--green-bg);color:var(--green);font-size:10px;padding:1px 7px;border-radius:20px;font-weight:700">${plan.length}</span>
+      </button>
+    </div>`;
+
+  /* ── OVERVIEW PANEL ── */
+  const panelOverview = `
+    <div class="res-panel active" id="panel-overview">
+      <div class="export-bar">
+        <button class="btn-export" onclick="exportToExcel()"><i class="ti ti-file-spreadsheet"></i> Export to Excel</button>
       </div>
-      <div>
-        <p class="score-level" style="color:${riskColor(level)}">${level} risk · ${env}</p>
-        <p class="score-summary">${a.summary || ''}</p>
-        <div class="score-metrics">
-          <div class="sm"><div class="sm-val" style="color:#A32D2D">${m.gaps_critical || 0}</div><div class="sm-lab">Critical</div></div>
-          <div class="sm"><div class="sm-val" style="color:#854F0B">${m.gaps_high || 0}</div><div class="sm-lab">High</div></div>
-          <div class="sm"><div class="sm-val" style="color:#185FA5">${m.gaps_medium || 0}</div><div class="sm-lab">Medium</div></div>
-          <div class="sm"><div class="sm-val">${m.recommendations || recs.length}</div><div class="sm-lab">Recommendations</div></div>
+
+      <!-- Risk score card -->
+      <div style="display:flex;gap:1.25rem;align-items:flex-start;flex-wrap:wrap;margin-bottom:1.25rem">
+        <div style="display:flex;align-items:center;justify-content:center;width:90px;height:90px;
+                    border-radius:50%;border:4px solid ${col}30;flex-shrink:0;flex-direction:column">
+          <span style="font-size:30px;font-weight:800;line-height:1;color:${col}">${score}</span>
+          <span style="font-size:9px;color:var(--dim);text-transform:uppercase;letter-spacing:.06em">risk</span>
+        </div>
+        <div style="flex:1;min-width:200px">
+          <div style="font-size:18px;font-weight:700;color:${col};margin-bottom:6px">${level} Risk · ${env}</div>
+          <div style="font-size:13px;color:var(--muted);line-height:1.65;margin-bottom:12px">${a.summary || ''}</div>
+          <div style="display:flex;gap:20px;flex-wrap:wrap">
+            <div style="text-align:center"><div style="font-size:22px;font-weight:800;color:var(--red)">${m.gaps_critical||0}</div><div style="font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:.05em">Critical</div></div>
+            <div style="text-align:center"><div style="font-size:22px;font-weight:800;color:var(--amber)">${m.gaps_high||0}</div><div style="font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:.05em">High</div></div>
+            <div style="font-size:22px;font-weight:800;display:flex;flex-direction:column;align-items:center"><div style="color:var(--blue)">${m.gaps_medium||0}</div><div style="font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:.05em">Medium</div></div>
+            <div style="text-align:center"><div style="font-size:22px;font-weight:800;color:var(--teal)">${m.recommendations||recs.length}</div><div style="font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:.05em">Recs</div></div>
+          </div>
         </div>
       </div>
+
+      <!-- Quick summary cards -->
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px">
+        ${[{t:'Critical & High Gaps',v:((m.gaps_critical||0)+(m.gaps_high||0)),sub:'Require immediate action',c:'var(--red)'},
+           {t:'Hardening Recommendations',v:m.recommendations||recs.length,sub:'Sorted by priority',c:'var(--teal)'},
+           {t:'Maturity Level',v:maturity,sub:'Current security posture',c:'var(--indigo)',text:true},
+           {t:'Delivery Phases',v:plan.length,sub:'90-day action plan',c:'var(--green)'}]
+          .map(card=>`
+          <div style="background:var(--surface2);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:.875rem 1rem;border-top:2px solid ${card.c}">
+            <div style="font-size:${card.text?'11px':'24px'};font-weight:700;color:${card.c};margin-bottom:4px${card.text?';text-transform:uppercase;letter-spacing:.04em;margin-top:4px':''}">${card.v}</div>
+            <div style="font-size:12px;font-weight:600;color:var(--ink);margin-bottom:2px">${card.t}</div>
+            <div style="font-size:11px;color:var(--dim)">${card.sub}</div>
+          </div>`).join('')}
+      </div>
     </div>`;
 
-  if (gaps.length) {
-    html += `
-    <div class="table-section">
-      <div class="table-header">
-        <i class="ti ti-alert-triangle"></i>
-        <span class="table-header-title">Security gaps</span>
-        <span class="table-header-badge badge-red">${gaps.length} identified · sorted by severity</span>
+  /* ── GAPS PANEL ── */
+  const panelGaps = `
+    <div class="res-panel" id="panel-gaps">
+      <div style="margin-bottom:.875rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+        <div style="font-size:13px;font-weight:700">${gaps.length} security gaps identified — sorted by severity</div>
+        <div style="display:flex;gap:5px;flex-wrap:wrap">
+          ${[['Critical',gaps.filter(g=>g.severity==='Critical').length,'var(--red)','var(--red-bg)'],
+             ['High',gaps.filter(g=>g.severity==='High').length,'var(--amber)','var(--amber-bg)'],
+             ['Medium',gaps.filter(g=>g.severity==='Medium').length,'var(--blue)','var(--blue-bg)']]
+            .map(([s,n,c,bg])=>`<span style="background:${bg};color:${c};font-size:10px;padding:2px 10px;border-radius:20px;font-weight:700">${n} ${s}</span>`).join('')}
+        </div>
       </div>
-      <div class="table-wrap">
-        <table>
-          <thead><tr>
-            <th class="col-sev">Severity</th>
-            <th>Gap / Risk area</th>
-            <th>Description</th>
-            <th>Recommended action</th>
-          </tr></thead>
-          <tbody>
-            ${gaps.map(g => `
-            <tr class="${sevRowClass(g.severity)}">
-              <td class="col-sev"><span class="sev-pill ${sevClass(g.severity)}">${g.severity}</span></td>
-              <td class="td-title">${g.title}</td>
-              <td class="td-desc">${g.description}</td>
-              <td class="td-rec">${g.recommendation}</td>
-            </tr>`).join('')}
-          </tbody>
-        </table>
-      </div>
+      ${gaps.map((g,i) => `
+        <div style="background:var(--surface2);border:0.5px solid var(--border);border-radius:var(--radius-lg);
+                    padding:1rem 1rem 1rem 1.25rem;margin-bottom:8px;
+                    border-left:3px solid ${riskColor(g.severity)}">
+          <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:8px">
+            <span style="font-size:10px;padding:2px 10px;border-radius:20px;font-weight:700;flex-shrink:0;
+                         background:${g.severity==='Critical'?'var(--red-bg)':g.severity==='High'?'var(--amber-bg)':g.severity==='Medium'?'var(--blue-bg)':'var(--green-bg)'};
+                         color:${riskColor(g.severity)}">${g.severity}</span>
+            <span style="font-size:13px;font-weight:700;color:var(--ink)">${g.title}</span>
+          </div>
+          <div style="font-size:12px;color:var(--muted);margin-bottom:8px;line-height:1.6">${g.description}</div>
+          <div style="display:flex;align-items:flex-start;gap:6px;font-size:12px;color:var(--teal)">
+            <i class="ti ti-arrow-right" style="margin-top:1px;flex-shrink:0"></i>
+            <span>${g.recommendation}</span>
+          </div>
+        </div>`).join('')}
     </div>`;
-  }
 
-  if (recs.length) {
-    html += `
-    <div class="table-section">
-      <div class="table-header">
-        <i class="ti ti-shield-lock"></i>
-        <span class="table-header-title">Hardening recommendations</span>
-        <span class="table-header-badge badge-teal">${recs.length} actions · sorted by priority</span>
-      </div>
-      <div class="table-wrap">
-        <table>
-          <thead><tr>
-            <th class="col-pri">Priority</th>
-            <th>Recommendation</th>
-            <th>What to do</th>
-            <th>Tool alignment</th>
-          </tr></thead>
-          <tbody>
-            ${recs.map(r => `
-            <tr class="${priRowClass(r.priority)}">
-              <td class="col-pri"><span class="sev-pill ${priBadge(r.priority)}">${r.priority}</span></td>
-              <td class="td-title">${r.title}</td>
-              <td class="td-desc">${r.description}</td>
-              <td class="td-tool">${r.tool_alignment || '—'}</td>
-            </tr>`).join('')}
-          </tbody>
-        </table>
-      </div>
+  /* ── RECS PANEL ── */
+  const panelRecs = `
+    <div class="res-panel" id="panel-recs">
+      <div style="margin-bottom:.875rem;font-size:13px;font-weight:700">
+        ${recs.length} hardening recommendations — sorted by priority</div>
+      ${recs.map((r,i) => `
+        <div style="background:var(--surface2);border:0.5px solid var(--border);border-radius:var(--radius-lg);
+                    padding:1rem 1rem 1rem 1.25rem;margin-bottom:8px;
+                    border-left:3px solid ${r.priority==='Immediate'?'var(--red)':r.priority==='Short-term'?'var(--amber)':'var(--blue)'}">
+          <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:8px">
+            <span style="font-size:10px;padding:2px 10px;border-radius:20px;font-weight:700;flex-shrink:0;
+                         background:${r.priority==='Immediate'?'var(--red-bg)':r.priority==='Short-term'?'var(--amber-bg)':'var(--blue-bg)'};
+                         color:${r.priority==='Immediate'?'var(--red)':r.priority==='Short-term'?'var(--amber)':'var(--blue)'}">${r.priority}</span>
+            <span style="font-size:13px;font-weight:700;color:var(--ink)">${r.title}</span>
+          </div>
+          <div style="font-size:12px;color:var(--muted);margin-bottom:8px;line-height:1.6">${r.description}</div>
+          ${r.tool_alignment ? `<div style="font-size:11px;color:var(--dim);display:flex;align-items:center;gap:5px">
+            <i class="ti ti-tool" style="font-size:12px;color:var(--indigo)"></i>${r.tool_alignment}</div>` : ''}
+        </div>`).join('')}
     </div>`;
-  }
 
-  if (plan.length) {
-    html += `
-    <div class="table-section">
-      <div class="table-header">
-        <i class="ti ti-calendar-check"></i>
-        <span class="table-header-title">90-day action plan</span>
-        <span class="table-header-badge badge-green">${plan.length} phases</span>
-      </div>
-      <div class="table-wrap">
-        <table>
-          <thead><tr>
-            <th class="col-num">#</th>
-            <th>Phase</th>
-            <th>Key actions</th>
-            <th class="col-time">Timeline</th>
-          </tr></thead>
-          <tbody>
-            ${plan.map((p,i) => `
-            <tr class="row-phase">
-              <td class="col-num"><div class="phase-num">${i+1}</div></td>
-              <td class="td-title">${p.phase}</td>
-              <td><ul class="actions-list">${(p.actions||[]).map(act=>`<li>${act}</li>`).join('')}</ul></td>
-              <td class="col-time" style="color:var(--teal);font-size:12px"><i class="ti ti-clock" style="font-size:11px;vertical-align:-1px;margin-right:3px"></i>${p.timeline}</td>
-            </tr>`).join('')}
-          </tbody>
-        </table>
-      </div>
+  /* ── PLAN PANEL ── */
+  const panelPlan = `
+    <div class="res-panel" id="panel-plan">
+      <div style="margin-bottom:.875rem;font-size:13px;font-weight:700">
+        ${plan.length}-phase delivery roadmap</div>
+      ${plan.map((p,i) => `
+        <div style="background:var(--surface2);border:0.5px solid var(--border);border-radius:var(--radius-lg);
+                    padding:1rem 1rem 1rem 1.25rem;margin-bottom:10px;
+                    border-left:3px solid var(--teal)">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+            <div style="width:28px;height:28px;border-radius:50%;background:rgba(16,185,129,0.15);
+                        border:1.5px solid var(--teal);display:flex;align-items:center;
+                        justify-content:center;font-size:12px;font-weight:800;
+                        color:var(--teal);flex-shrink:0">${i+1}</div>
+            <div style="flex:1">
+              <div style="font-size:13px;font-weight:700">${p.phase}</div>
+            </div>
+            <div style="font-size:11px;color:var(--teal);font-weight:600;
+                        background:rgba(16,185,129,0.1);padding:3px 10px;
+                        border-radius:20px;border:0.5px solid rgba(16,185,129,0.25)">
+              <i class="ti ti-clock" style="font-size:10px;vertical-align:-1px;margin-right:3px"></i>${p.timeline}</div>
+          </div>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:5px;padding-left:38px">
+            ${(p.actions||[]).map(act=>`
+              <li style="font-size:12px;color:var(--muted);display:flex;align-items:flex-start;gap:6px">
+                <span style="color:var(--teal);font-weight:700;flex-shrink:0">›</span>${act}</li>`).join('')}
+          </ul>
+        </div>`).join('')}
     </div>`;
-  }
 
-  document.getElementById('results').innerHTML = html;
+  document.getElementById('results').innerHTML =
+    `<div class="results-wrap">${tabBar}${panelOverview}${panelGaps}${panelRecs}${panelPlan}</div>`;
 }
 
 function exportToExcel() {
@@ -554,7 +959,7 @@ function exportToExcel() {
 
   // Sheet 1: Summary
   const summaryData = [
-    ['Cloud Network Security Advisor — AgentPM', '', '', ''],
+    ['Cloud Network Security Advisor — AI', '', '', ''],
     ['Generated by:', 'Daniel Mazzini · Principal Architect & Senior TPM', '', ''],
     ['Date:', date, '', ''],
     ['Environment:', env, '', ''],
@@ -614,6 +1019,7 @@ function exportToExcel() {
   const fileName = `Security_Analysis_${env.replace(/[^a-z0-9]/gi,'_').substring(0,20)}_${date.replace(/\//g,'-')}.xlsx`;
   XLSX.writeFile(wb, fileName);
 }
+
 </script>
 </body>
 </html>
